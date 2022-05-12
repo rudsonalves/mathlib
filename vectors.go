@@ -1,7 +1,9 @@
 package mathlib
 
 import (
+	"fmt"
 	"math"
+	"strings"
 )
 
 // Vector: define a vector
@@ -43,4 +45,42 @@ func (a Vector) Cross(b Vector) (r Vector) {
 	r.Y = a.Z*b.X - a.X*b.Z
 	r.Z = a.X*b.Y - a.Y*b.Z
 	return
+}
+
+// String - redefine string() to Vector
+func (r Vector) String() string {
+	str_out := ""
+	if r.X != 0 {
+		str_out += fmt.Sprintf("%si", cleanZeros(r.X))
+	}
+	if r.Y != 0 {
+		if len(str_out) > 0 {
+			str_out += fmt.Sprintf(" + %sj", cleanZeros(r.Y))
+		} else {
+			str_out += fmt.Sprintf("%sj", cleanZeros(r.Y))
+		}
+	}
+	if r.Z != 0 {
+		if len(str_out) > 0 {
+			str_out += fmt.Sprintf(" + %sk", cleanZeros(r.Z))
+		} else {
+			str_out += fmt.Sprintf("%sk", cleanZeros(r.Z))
+		}
+	}
+	return str_out
+}
+
+func cleanZeros(fstr float64) string {
+	str := fmt.Sprintf("%f", fstr)
+	index := strings.Index(str, ".")
+	if index < 0 {
+		return str
+	}
+	for i := len(str) - 1; i > index; i-- {
+		if str[i] != 48 {
+			index = i + 1
+			break
+		}
+	}
+	return str[:index]
 }
