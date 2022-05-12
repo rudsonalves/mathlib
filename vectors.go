@@ -43,7 +43,7 @@ func (a Vector) Scalar(b Vector) float64 {
 func (a Vector) Cross(b Vector) (r Vector) {
 	r.X = a.Y*b.Z - a.Z*b.Y
 	r.Y = a.Z*b.X - a.X*b.Z
-	r.Z = a.X*b.Y - a.Y*b.Z
+	r.Z = a.X*b.Y - a.Y*b.X
 	return
 }
 
@@ -66,6 +66,9 @@ func (r Vector) String() string {
 		} else {
 			str_out += fmt.Sprintf("%sk", cleanZeros(r.Z))
 		}
+	}
+	if len(str_out) == 0 {
+		return "0"
 	}
 	return str_out
 }
